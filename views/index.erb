@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hangman</title>
+    <link href="styles.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <% session[:word].each_char do |chr| %>
+      <% if session[:right_letters].include?(chr) %>
+        <%= chr %>
+      <% else %>
+        _
+      <% end %>
+    <% end %>
+    <p>Wrong letters:
+      <% session[:wrong_letters].each do |chr| %>
+        <b><%= chr %></b>
+      <% end %>
+    </p>
+    <form method="POST" id="letter-input">
+      <input type="text" name="letter" autocomplete="off" autofocus <%= 'disabled' if session[:end?] %>
+      <input type="submit">
+    </form>
+    <a href="/new" class="new">New Game</a>
+    <% if session[:end?] && !(session[:word].split('') - session[:right_letters]).empty? %>
+      <p>The word was: <b><%= session[:word] %></b></p>
+    <% end %>
+  </body>
+</html>
